@@ -1,0 +1,34 @@
+{% extends 'base.html'%}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block logo %}
+            <a class="navbar-brand" href="#">
+                <span> <img src="../static/images/website_logo.png" alt="brand image" style="width: 30px; height: 30px;"></span> 
+                BOOKSAPP
+            </a>
+{% endblock %}
+{% block login_link %}
+    <a class="nav-link" href="{{ url_for('login') }}"> Login </a>
+{% endblock %}
+
+
+{% block register_link %}
+    <a class="nav-link" href="{{ url_for('register') }}"> Register </a>
+{% endblock %}
+
+{% block main_content %}
+    <div class="jumbotron" id="welcome-jumbotron">
+        <h4 class="text-center">Welcome To BOOKSAPP, a popular book-review platform. <br>
+            Click Links below to sign up or register for the website    
+
+        </h4>
+        <div class="cta-links">
+            <a href="/login" class="btn btn-lg btn-outline-success">Login</a>
+            <a href="/register" class="btn btn-lg btn-outline-warning">Register</a>
+        </div>
+        
+    </div>
+{% endblock %}

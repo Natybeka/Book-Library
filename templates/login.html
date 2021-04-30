@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Login
+{% endblock %}
+{% block logo %}
+<a class="navbar-brand" href="{{ url_for('index') }}">
+    <span> <img src="../static/images/website_logo.png" alt="brand image" style="width: 30px; height: 30px;"></span> 
+    BOOKSAPP
+</a>
+{% endblock %}
+{% block login_link %}
+    <a class="nav-link active" href="#"> Login </a>
+{% endblock %}
+
+
+{% block register_link %}
+    <a class="nav-link" href="{{ url_for('register') }}"> Register </a>
+{% endblock %}
+
+{% block main_content %}
+    <div class="form-container mt-3">
+        <form method="POST">
+            <h3 align="center">Login</h3>
+            <hr>
+            
+            <div class="form-group">
+                <label for="username"> Username </label>
+                <input type="text" class="form-control" style='width:"475px"' name="username" placeholder="Enter a username" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password"> Password </label>
+                <input type="password" class="form-control" name="password" placeholder="Enter a password" required>
+            </div>
+            <div class="form-group text-center">
+                <button class="btn btn-lg btn-success my-2 my-sm-0" type="submit">Login</button>
+            </div>
+        
+        </form>
+    
+    </div>
+
+    {% with success = get_flashed_messages(category_filter=["success"]) %}
+        {% if success %}
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>       
+                {% for msg in success %}
+                    {{ msg }}
+                {% endfor %}        
+            </div>  
+        {% endif %}
+    {% endwith %}
+
+    {% with error = get_flashed_messages(category_filter=["error"]) %}
+    {% if error %}
+        <div class="alert alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>       
+            {% for msg in error %}
+                {{ msg }}
+            {% endfor %}        
+        </div>  
+    {% endif %}
+{% endwith %}
+
+{% endblock %}

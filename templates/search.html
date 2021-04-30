@@ -1,0 +1,65 @@
+{% extends 'user.html' %}
+
+{% block login_link %} <a class="nav-link active" href="{{ url_for('user_home') }}"> Home </a> {% endblock %}
+{% block logo %}
+            <a class="navbar-brand" href="#">
+                <span> <img src="../static/images/website_logo.png" alt="brand image" style="width: 30px; height: 30px;"></span> 
+                BOOKSAPP
+            </a>
+{% endblock %}
+{% block search_result %}
+    <br>
+    {% with warn = get_flashed_messages(category_filter=["warning"]) %}
+        {% if warn %}
+            <div class="alert alert-warning">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>       
+                {% for msg in warn %}
+                    {{ msg }}
+                {% endfor %}        
+            </div>  
+        {% endif %} 
+    {% endwith %}
+    
+    <div class="container" style="position: absolute; top: 35%;">
+
+        {% if message %}
+        <h2>{{message}}</h2>
+        {% endif %}
+
+        {% if res %}
+            <div class="row mt-4">
+                {% for book in res %}
+                <div class="col-sm-4">
+
+                    <div class="card search-result" >
+                        
+                        <img class="card-img-top" src="{{ book[7] }}" alt="image-for-book">
+                       
+                        <div class="card-body">
+                            <h5 class="card-title text-center"><strong>Title : {{ book[1] }}</strong></h5>
+                            <p class="card-text">
+                                <strong>ISBN : </strong> {{ book[0] }} <br>
+                                <strong>Author : </strong> {{ book[2] }} <br>
+                                <strong> Google Books Rating :</strong> {{ book[8] }}<br>
+                                <strong> Rating Count : {{ book[9] }}</strong><br>
+                              
+                                <strong> Average Site Rating :</strong> {{ book[4] }} <br><br>
+                                <a class="btn btn-outline-primary" href="{{ url_for('review', isbn=book[0]) }}" >Check Reviews</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="text-center">
+                <button class="btn btn-lg btn-primary" id='load-more' style="width: 100%;"> LOAD MORE </button>
+            </div>
+        {% else %}
+            <h4>No Results found...</h4>
+        {% endif %}
+    </div>
+
+    
+
+{% endblock %}
+
+

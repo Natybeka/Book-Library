@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %} Userpage {% endblock %}
+
+{% block register_link %}<a class="nav-link" href="{{url_for('logout')}}">Logout</a> {% endblock %}
+
+{% block login_link %} <a class="nav-link active" href="#"> Home </a> {% endblock %}
+{% block logo %}
+            <a class="navbar-brand" href="#">
+                <span> <img src="../static/images/website_logo.png" alt="brand image" style="width: 30px; height: 30px;"></span> 
+                BOOKSAPP
+            </a>
+{% endblock %}
+
+{% block main_content %}
+    <br>
+    {% with success = get_flashed_messages(category_filter=["success"]) %}
+        {% if success %}
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>       
+                {% for msg in success %}
+                    {{ msg }}
+                {% endfor %}        
+            </div>  
+        {% endif %} 
+    {% endwith %}
+
+   <div class="form-container">
+        <h4 class="text-center">Search for any book here</h4>
+        <form method="GET" action="/search">
+            <input style="font-size: large;" class="form-control" name='q' type="text" placeholder="eg. Harry potter, phillip pullman...">
+            <button class="btn btn-sm btn-info" id="search"> Search</button>
+        </form>
+   </div>
+    
+  
+
+
+    {% block search_result %}
+
+    {% endblock %}
+    
+    
+{% endblock %}

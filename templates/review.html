@@ -1,0 +1,232 @@
+{% extends 'user.html' %}
+{% block login_link %} <a class="nav-link" href="{{ url_for('user_home') }}"> Home </a> {% endblock %}
+{% block back_to_search %} <a class="btn ml-5 btn-outline-info" href="{{url_for('search')}}"> <-- Back to Search </a> {% endblock %}
+{% block logo %}
+            <a class="navbar-brand" href="#">
+                <span> <img src="../static/images/website_logo.png" alt="brand image" style="width: 30px; height: 30px;"></span> 
+                BOOKSAPP
+            </a>
+{% endblock %}
+{% block main_content %}
+    <h1 class="text-center"> Reviews for '{{detail[1]}}'</h1>
+   
+    <div class="row" style="position: absolute;left: 50%;transform: translateX(-50%);"> 
+        <div class="col-12" id='review-title-card'>
+            <div class="card col-md-12" >        
+                <img class="card-img-top" style="width:500px;height:500px;" src="{{ detail[5] }}" alt="image-for-book">
+                
+                <div class="card-body">
+                    
+                    
+                    <h3 class="card-title text-center"><strong>Title : </strong>{{ detail[1] }}</h3>
+                    <h4><strong>ISBN : </strong> {{ detail[0] }} </h4>
+                    <h4><strong>AUTHORS : </strong> {{ detail[2] }}</h4>
+                
+                    <h4><strong>GOOGLE BOOKS RATING : </strong> 
+                        {{ detail[8] }}
+                    </h4>
+                    <h4><strong>AVERAGE SITE RATING : </strong>{{ detail[4] }} 
+                        <h4><strong>RATING COUNT : </strong> {{detail[9]}}
+        
+                        </h4>
+                    </h4>
+                    <br> 
+                   
+                        <a id="submit-review" class="btn btn-outline-primary">
+                            {% if submitted %}
+                                EDIT REVIEW
+                            {% else %}
+                                SUBMIT REVIEW
+                            {% endif %}
+                        </a>
+                </div>
+            </div>
+        </div>
+        {% if allReviews %}
+            <div class="col-12" >
+                {% for review in allReviews %}
+                    <div class="jumbotron" id="review-jumbotron" >
+                        <h6 style="color: rgba(63, 155, 209, 0.6);">user '{{ review[3] }}' <em>reviewed this on {{review[4]}}</em></h6>
+                        <h6 display='inline'>Rating : <span id="rating_number">{{ review[1] }}
+                            <div class="stars-outer" >
+                                <div class="stars-inner"></div>
+                            </div>
+                            </span> 
+                            
+                        </h6>
+                        <span> 
+                    </span>
+                        <p class="review-description">
+                            Review : {{review[2]}}
+                        </p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            {% with info = get_flashed_messages(category_filter=["info"]) %}
+            {% if info %}
+                <div class="alert alert-info">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>       
+                    {% for msg in info %}
+                        {{ msg }}
+                    {% endfor %}        
+                </div>  
+            {% endif %} 
+            {% endwith %}
+        {% endif %}
+        
+        
+    </div>
+    <div class="container">
+        <div class="popup">
+            <div class="popup-content">
+                <div class="close"><h3 style="position: absolute;top:-2%; left: 50%;transform: translate(-50%);">X</h3></div>
+                <form class="form" action="" method="POST">
+                    <div class="form-group">
+                        <select id="rating-box" name="selectedRating" class="form-control custom-select" required>
+                            <option value="" disabled selected>Star Rate (1 - 5)</option>
+                            <option value="0">0</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select> 
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">&nbsp;Enter your thougts below...</label>
+                        <textarea class="form-control" name="reviewDescription"  id="exampleFormControlTextarea1" rows="12" required></textarea>
+                        
+                       
+                    </div>
+                  
+                    <input class='btn btn-primary' type="submit" class="form-control" value="Submit Review">
+    
+                </form>
+            </div>
+        </div> 
+    </div> 
+     
+      
+    <style>
+        .popup{
+            background: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            height: 2000px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content{
+            height: 530px;
+            width : 700px;
+            background: rgb(209, 209, 209);
+            color: black;
+            padding: 20px;
+            border-radius: 5px;
+            position: relative;
+
+        }
+        .close{
+            
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-color: rgb(209, 209, 209);
+            top: -10px;
+            cursor: pointer;
+            right: -5px;
+            border-radius: 50%;
+        }
+
+        .close:hover{
+            color: red;
+            background-color: rgba(110, 51, 51, 0.6);
+        }
+
+        #review-title-card div, #review-title-card img{
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .review-description{
+            font-size: larger;
+            font-weight: 800;
+        }
+
+        .stars-outer {
+        position: relative;
+        display: inline-block;
+        }
+
+        .stars-inner {
+        position: absolute;
+        top: 0;
+        left: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 50%;
+        }
+        
+        .stars-outer::before {
+            content: "\f005 \f005 \f005 \f005 \f005";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: #ccc;
+        }
+
+        .stars-inner::before {
+            content: "\f005 \f005 \f005 \f005 \f005";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            color: #f8ce0b;
+        }
+    </style>
+
+    <script>
+        // Some javascript vodoo
+        document.getElementById("submit-review").addEventListener('click',
+        function(){
+            document.querySelector(".popup").style.display = "flex";
+        });
+
+        document.querySelector('.popup').addEventListener('click', 
+        function(e){
+            if (e.target.parentElement.classList.contains('close'))
+                document.querySelector(".popup").style.display = "none";
+        });
+
+        // Some javascript majic
+        document.addEventListener('DOMContentLoaded', function () {      
+        // Get percentage
+
+        const numbers = document.querySelectorAll("#rating_number");
+       
+        var rating;
+        var starPercentage;
+        var starPercentageRounded;
+        // console.log(numbers);
+        for (let i = 0; i < numbers.length; i++)
+        {
+            rating = parseInt(numbers[i].innerText);
+            // console.log(rating);
+            // console.log(numbers[i].lastChild);
+            starPercentage = (rating / 5) * 100;
+            starPercentageRounded = `${Math.round(starPercentage / 10) * 10}%`;
+            console.log(numbers[i].firstElementChild)
+
+            if (numbers[i].firstElementChild.hasChildNodes())
+            {
+                numbers[i].firstElementChild.firstElementChild.style.width = starPercentageRounded;
+            }
+            
+        }
+        });
+    </script>
+
+{% endblock %}
+
