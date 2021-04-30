@@ -1,5 +1,5 @@
-/__pycache__/
-/venv/
-/flask_session/
-/.vscode/
-/.github/
+/__pycache__
+/venv
+/flask_session
+/.vscode
+/.github
